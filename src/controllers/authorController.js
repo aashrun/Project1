@@ -49,29 +49,26 @@ const createAuthor = async function (req, res) {
 
         let authorCreated = await AuthorModel.create(author)
 
-        const transporter= nodemailer.createTransport({
-          service:"hotmail",
-          auth:{
-            user: "blogprojecttesting@outlook.com",
-            pass:"Blog12345@"
-          }  
+        const transporter = nodemailer.createTransport({
+            service: "hotmail",
+            auth: {
+                user: "blogprojecttesting@outlook.com",
+                pass: "Blog12345@"
+            }
         })
-const Options ={
-    from: "blogprojecttesting@outlook.com",
-    to: author.email,
-    subject:"User Created Sucessfully",
-    text : "Congratulation , your account has been created"
-    
-}
+        const Options = {
+            from: "blogprojecttesting@outlook.com",
+            to: author.email,
+            subject: "User Created Sucessfully",
+            text: "Congratulation , your account has been created"
 
-transporter.sendMail(Options , function(error){
-    if(error) console.log(error)
-    return
-})
+        }
 
-
-
-        res.status(201).send({ data: authorCreated })
+        transporter.sendMail(Options, function (error) {
+            if (error) console.log(error)
+            return
+        })
+        res.status(201).send({status:true, data: authorCreated })
     } catch (error) {
         res.status(500).send({ msg: error.message })
     }
@@ -108,10 +105,10 @@ const loginAuthor = async function (req, res) {
                 batch: "Radon",
                 project: "Blog-Project"
             },
-            "Excellence Over Success" ,{ expiresIn: '12h'}
+            "Excellence Over Success", { expiresIn: '12h' }
         )
 
-        res.status(200).send({ msg: "User logged in successfully!", loggedAuthor, token })
+        res.status(200).send({ status:true,msg: "User logged in successfully!", loggedAuthor, token })
     } catch (error) {
         res.status(500).send({ msg: error.message })
     }
