@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-
+const blogModel = require("../models/blogModel")
 
 const authenticate= function ( req, res, next) {
   try{
@@ -17,13 +17,17 @@ if (!decodedToken) return res.status(401).send({ status: false, msg: "token is i
 }
 
 
-const authorize= function ( req, res, next) {
+const authorize= async function ( req, res, next) {
   try{
     let token = req.headers["x-api-key"];
-    
+    let inputId = req.params.blogId
 if (!token) return res.status(400).send({ status: false, msg: "token must be present" });
 let decodedToken = jwt.verify(token, "Excellence Over Success");
-let userTobeModified =req.query.authorId
+
+let author= await blogModel.findOne({_id:inputId})
+if(!author)return res.status(404).send({ status: false, msg: "No Blog found" });
+let userTobeModified =author.authorId.toString()
+
 let userLoggedIn = decodedToken.authorId
 
 if (!decodedToken)

@@ -44,8 +44,8 @@ const blogSchema = new mongoose.Schema({
     isPublished: {
         type: Boolean,
         default: false,
-
-    },
+        required:true ,
+        },
 
 
 }, { timestamps: true });

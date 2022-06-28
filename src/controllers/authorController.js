@@ -84,7 +84,7 @@ const loginAuthor = async function (req, res) {
             return res.status(400).send({ status: false, msg: "Invalid request Please provide valid Author  details" });
         }
 
-        if (email.trim().length == 0 || password.trim().length == 0) {
+        if (author.length==0) {
             return res.status(400).send({
                 status: false,
                 msg: "please provide login details",
@@ -96,7 +96,7 @@ const loginAuthor = async function (req, res) {
 
 
         let loggedAuthor = await AuthorModel.findOne({ email: email, password: password })
-        if (!loggedAuthor) return res.status(404).send({ msg: "Email or Password is Incorrect!" })
+        if (!loggedAuthor) return res.status(400).send({ msg: "Email or Password is Incorrect!" })
 
 
         let token = jwt.sign(

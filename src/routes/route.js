@@ -10,19 +10,19 @@ const mController = require("../middleware/middleware")
 
 
 
-router.post("/createAuthor", authorController.createAuthor)
+router.post("/authors", authorController.createAuthor)
 
-router.post("/createBlog", blogController.createBlog)
+router.post("/blogs",mController.authenticate, blogController.createBlog)
 
-router.get("/getBlogsData", mController.authenticate,blogController.getBlogsData)
+router.get("/blogs",mController.authenticate,blogController.getBlogsData)
 
-router.put("/updateBlog/:blogId",mController.authorize,  blogController.updateBlog)
+router.put("/blogs/:blogId", mController.authorize ,blogController.updateBlog)
 
-router.delete("/deleteBlog/:blogId", mController.authorize, blogController.deleteBlog)
+router.delete("/blogs/:blogId", mController.authorize, blogController.deleteBlog)
 
 router.delete("/deleteBlogQuery",mController.authenticate, blogController.deleteBlogQuery)
 
-router.post("/loginAuthor", authorController.loginAuthor)
+router.post("/login", authorController.loginAuthor)
 
 router.all("/**", function (req, res) {
     res.status(404).send({
