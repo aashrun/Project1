@@ -157,7 +157,7 @@ const deleteBlogQuery = async (req, res) => {
     try {
         let inputData= req.query
 
-        let isValid = mongoose.Types.ObjectId.isValid(authorId)
+        let isValid = mongoose.Types.ObjectId.isValid(req.query.authorId)
         if (!isValid) return res.status(400).send({ status: false, msg: "enter valid objectID" })
         // let input = req.query
         // let category = req.query.category
@@ -166,15 +166,16 @@ const deleteBlogQuery = async (req, res) => {
         // let isPublished = req.query.boolean
         let date = Date.now()
 
-        if (Object.keys(input).length == 0) {
+        if (Object.keys(inputData).length == 0) {
             return res.status(400).send({ status: false, msg: "Invalid request Please provide valid blog details in Query" });
         }
 
-        let alert = await blogModel.find({ authorId: authorId, isDeleted: true })
-        if (alert) return res.status(409).send({ status: false, msg: "Sorry ,all blogs of the selected author were already deleted" })
+        // let alert = await blogModel.find(inputData)
+        // if (alert) return res.status(409).send({ status: false, msg: "Sorry ,all blogs of the selected author were already deleted" })
 
-        let blogs = await blogModel.updateMany({inputData},
-            { $set: { isDeleted: true, deletedAt: date } }, { new: true })
+
+        let blogs = await blogModel.find(inputData).bulkWrite({$set: { isDeleted: true, deletedAt: date } }, { new: true })
+         
 
         if (!blogs) return res.status(404).send({ status: false, msg: "no data found" })
         res.status(200).send({ status: true, msg: blogs })
