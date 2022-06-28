@@ -17,6 +17,8 @@ const authenticate = function (req, res, next) {
 }
 
 
+//------------------------------------------------------Authorization------------------------------------------------------------------------------------
+
 const authorize = async function (req, res, next) {
   try {
     let token = req.headers["x-api-key"];
