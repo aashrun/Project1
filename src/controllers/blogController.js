@@ -7,7 +7,7 @@ const createBlog = async (req, res) => {
     try {
         let Blog = req.body
         if (Object.keys(Blog).length == 0) {
-            return res.status(400).send({ status: false, msg: "Invalid request Please provide valid Author  details" });
+            return res.status(400).send({ status: false, msg: "Invalid request Please provide valid Author details" });
         }
         if (!Blog.title) return res.status(400).send({ msg: " title is required " })
         if (!Blog.body) return res.status(400).send({ msg: "body is required " })
@@ -47,7 +47,7 @@ const getBlogsData = async (req, res) => {
                     blogsData.push(n)
             })
 
-            return res.status(200).send({ data: blogsData })
+            return res.status(200).send({status : true, data: blogsData })
         }
         else {
             let blogs = await blogModel.find({ isDeleted: false, isPublished: true }).populate('authorId')
@@ -128,7 +128,7 @@ const deleteBlog = async (req, res) => {
 const deleteBlogQuery = async (req, res) => {
     try {
         let inputData = req.query
-        console.log(inputData)
+        
         let isValid = mongoose.Types.ObjectId.isValid(req.query.authorId)
         if (!isValid) return res.status(400).send({ status: false, msg: "enter valid objectID" })
 

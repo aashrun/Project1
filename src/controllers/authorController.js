@@ -10,7 +10,7 @@ const createAuthor = async function (req, res) {
     try {
         let author = req.body
         if (Object.keys(author).length == 0) {
-            return res.status(400).send({ status: false, msg: "Invalid request Please provide valid Author  details" });
+            return res.status(400).send({ status: false, msg: "Invalid request. Please provide valid Author details" });
         }
 
         if (!author.Fname) return res.status(400).send({ msg: " First name is required " })
